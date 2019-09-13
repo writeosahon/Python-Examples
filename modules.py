@@ -1,7 +1,9 @@
 import sys
 
-# print out program heading
-programHeading = "PROGRAM BEGINS BELOW (Python Version {})".format(sys.version[0:sys.version.index(" ")])
+# print out program heading (using multi-line statement)
+programHeading = "PROGRAM BEGINS BELOW (Python Version {})".format(\
+                sys.version[0:sys.\
+                    version.index(" ")])
 print(programHeading)
 print('=' * len(programHeading))
 programHeading = "PYTHON MODULES"
