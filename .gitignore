@@ -1,0 +1,10 @@
+/.vscode
+/conda-meta
+/DLLs
+/include
+/Lib
+/Library
+/libs
+/Scripts
+/tcl
+/.nonadmin
