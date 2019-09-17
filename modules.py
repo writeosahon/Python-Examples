@@ -1,4 +1,6 @@
 import sys
+import numpy
+
 
 # print out program heading (using multi-line statement)
 programHeading = "PROGRAM BEGINS BELOW (Python Version {})".format(\
