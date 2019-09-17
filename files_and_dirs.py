@@ -10,7 +10,7 @@ programHeading = "PROGRAM BEGINS BELOW (Python Version {})".format(\
                     version.index(" ")])
 print(programHeading)
 print('=' * len(programHeading))
-programHeading = "PYTHON MODULES"
+programHeading = "PYTHON FILES AND DIRECTORIES OPERATIONS"
 print(programHeading)
 print('=' * len(programHeading))
 
