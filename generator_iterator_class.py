@@ -55,7 +55,6 @@ class Dog(Animal):
     def __init__(self, specieName):
         ''' class constructor '''
         super().__init__(specieName) # call the super class constructor
-# end of class
 
 
 # print the animal count after creating instance of Animal within a for loop
