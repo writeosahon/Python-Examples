@@ -1,5 +1,6 @@
 import sys
 import os
+import copy # module to help with shallow and deep copying of python objects
 
 import numpy # testing installing/importing of 3rd party/custom modules
 
