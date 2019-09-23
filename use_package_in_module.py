@@ -19,6 +19,12 @@ print('=' * len(programHeading))
 
 numbers_to_sum = eval(input("""Enter the numbers you want to sum (separated by comma) \u27A4   """))
 
+# format has number with thousand separator
 print("POWERS OF 2 of number total({0:,d}) = {number:,d}".\
+    format(sum(numbers_to_sum), \
+        number=python_decorators.powersOf2SumNumbers(*numbers_to_sum)))
+
+# format as currency with thousand separator
+print("POWERS OF 2 of number total({0:,.2f}) = {number:,.2f}".\
     format(sum(numbers_to_sum), \
         number=python_decorators.powersOf2SumNumbers(*numbers_to_sum)))

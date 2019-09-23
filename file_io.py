@@ -38,7 +38,7 @@ myfile.close()
 
 # USING 'with' statement to automatically close file object/stream
 with getFile('io-files/read-file.txt') as anotherFile :
-    seekFilePosition(anotherFile, 0)
+    seekFilePosition(anotherFile)
     print(readInputFromFile(anotherFile)) # call function to read from the file
 # end of'with' block
 
