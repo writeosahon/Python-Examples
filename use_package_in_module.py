@@ -28,3 +28,8 @@ print("POWERS OF 2 of number total({0:,d}) = {number:,d}".\
 print("POWERS OF 2 of number total({0:,.2f}) = {number:,.2f}".\
     format(sum(numbers_to_sum), \
         number=python_decorators.powersOf2SumNumbers(*numbers_to_sum)))
+
+
+# JUST TESTING LIST COMPREHENSION
+x1 = [i + z for i in ["hello", "everyone"] for z in i ]
+print(x1)
