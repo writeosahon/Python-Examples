@@ -34,7 +34,13 @@ class Animal() :
     def changeSpecieName(self, newName):
         """ instance method changes the name of the animal species """
         self.specieName = newName # change the specie name for this animal instance
+    
+    # define a static method for the class
+    @staticmethod
+    def get_animal_count() -> str:
+        """ static method for getting the total number of animal created """
         
+        return Animal.animalCount
 # end of class
 
 # creating sub-class
