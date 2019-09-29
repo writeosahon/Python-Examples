@@ -48,31 +48,48 @@ class GetNumberThread(threading.Thread):
 
 # define PutNumberThread class
 class PutNumberThread(threading.Thread):
+    """ class is a Thread class used to instruct the IntNumberProvider class to  
+    make/provision a number for use.
+    """
+
     def __init__(self, number_provider_class, **kwargs):
+        """ constructor method for the  class """
+
+        # call the super class i.e. Thread constructor method
         super().__init__(**kwargs)
-        self.__numberprovider = number_provider_class
+        self.__numberprovider = number_provider_class # set the IntNumberProvider for this instance
     # end of method
     
+    # run method where the thread executes
     def run(self):
-        while True:
+        while True: # create an infinite loop
+            # lock/synchronise access to the IntNumberProvider class using its provider 'lock'
             with threading_with_condition_lock.IntNumberProvider._classlock:
-                while self.__numberprovider.is_number_available():
+                
+                # while there is a number available from the IntNumberProvider, 
+                # the thread should keep waiting 
+                while self.__numberprovider.is_number_available(): 
                     threading_with_condition_lock.IntNumberProvider._classlock.wait()
+                # once there is no number available from the IntNumberProvider, provision 
+                # one using the IntNumberProvider
                 self.__numberprovider.addnumber()
                 print("Number Put In From Within {}: {}".\
                     format(threading.current_thread().name, self.__numberprovider.currentnumber()))
+            # let thread sleep for 2 seconds before continuing the loop                
             time.sleep(2)       
     # end of method
 # end of class
 
-# start a thread each from GetNumberThread and PutNumberThread classes
+# create a thread each from GetNumberThread and PutNumberThread classes
 getthread = GetNumberThread(number_provider_class=threading_with_condition_lock.IntNumberProvider, \
                             name="GetThread")
 putthread = PutNumberThread(number_provider_class=threading_with_condition_lock.IntNumberProvider, \
                             name="PutThread")
 
+# start the execution of the created threads
 getthread.start()
 putthread.start()
 
+# wait for both threads to complete execution
 getthread.join()
 putthread.join()
