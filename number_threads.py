@@ -29,7 +29,7 @@ class GetNumberThread(threading.Thread):
                     wait_for(self.__numberprovider.is_number_available)
                 print("Number Gotten From Within {}: {}".\
                     format(threading.current_thread().name, self.__numberprovider.getnumber()))
-            time.sleep(2)
+            time.sleep(3)
     # end of method
 # end of class
 
@@ -44,8 +44,10 @@ class PutNumberThread(threading.Thread):
             with threading_with_condition_lock.IntNumberProvider._classlock:
                 while self.__numberprovider.is_number_available():
                     threading_with_condition_lock.IntNumberProvider._classlock.wait()
+                self.__numberprovider.addnumber()
                 print("Number Put In From Within {}: {}".\
-                    format(threading.current_thread().name, self.__numberprovider.addnumber()))
+                    format(threading.current_thread().name, self.__numberprovider.currentnumber()))
+            time.sleep(2)       
     # end of method
 # end of class
 

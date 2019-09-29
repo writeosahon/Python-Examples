@@ -96,7 +96,19 @@ class IntNumberProvider(abc.ABC):
 
             IntNumberProvider._classlock.notify_all() # notify the waiting threads that lock is about to be released
             return thenumber # return the available number that was stored prior to reset
+    
+    @staticmethod
+    @abc.abstractmethod
+    def currentnumber() -> int:
+        """ static public method used to show the number cuurently available for provision.
+        It DOES NOT PUSH the available number out of provision.
 
+        method will return int if a number is available else it will return None.
+        """
+        with IntNumberProvider._classlock: # lock /synchronise access to class data
+    
+            IntNumberProvider._classlock.notify_all() # notify the waiting threads that lock is about to be released
+            return IntNumberProvider.__number # return the available number 
 
     @staticmethod
     @abc.abstractmethod
