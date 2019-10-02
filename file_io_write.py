@@ -15,10 +15,8 @@ myfile.write("===================================================\n")
 myfile.close()
 
 # USING 'with' statement to automatically close file object/stream
-with open('io-files/write-file.txt', mode='a', newline=None)  as anotherFile :
+with open('io-files/write-file.txt', mode='a', newline=None, encoding="utf-8")  as anotherFile :
     print("Print Line", file=anotherFile, flush=True) # call function to write to the file
     anotherFile.write("Write Line\n")
     anotherFile.write("===================================================\n")
 # end of'with' block
-
-
