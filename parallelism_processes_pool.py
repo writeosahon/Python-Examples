@@ -1,4 +1,4 @@
-""" file contains simple examples on Python Parallelism/MultiProcessing """
+""" file contains examples on Python MultiProcessing Pool """
 
 import sys
 import multiprocessing
@@ -22,7 +22,7 @@ if __name__ == "__main__":
                         version.index(" ")])
     print(programHeading)
     print('=' * len(programHeading))
-    programHeading = "PYTHON PARALLELISM/MULTIPROCESS"
+    programHeading = "PYTHON MULTIPROCESSING POOL"
     print(programHeading)
     print('=' * len(programHeading))
     
@@ -46,20 +46,16 @@ if __name__ == "__main__":
     # get the multiprocessing contet to be used in creating the set of process
     multiprocess = multiprocessing.get_context()
 
-
+    # create the process pool
+    multiprocess_pool = multiprocess.Pool(processes=os.cpu_count() * 2, maxtasksperchild=2)
     # use a for loop to creating the process objects. Number of processes == number of cpus
     for(i) in range(1, os.cpu_count() + 1):
         # create the process objects
-        process_list.append(multiprocess.Process(target=simpleprocess.run_method, \
-                                                 name=f"MyProcess {i}" , args=(i,)))
-        # start the last created thread
-        process_list[i-1].start()
+        multiprocess_pool.apply_async(func=simpleprocess.run_method, args=(i,), \
+            callback=lambda x: print(f"Result {x}"), error_callback=lambda x: print(f"Error {x}"))
 
-    # list all processes that are alive
-    print("All Processes :", multiprocess.active_children())
+    # close the multiprocessing pool    
+    multiprocess_pool.close()
+    # wait for all process to exit
+    multiprocess_pool.join()
 
-    # use a for loop to wait for all process objects to complete execution
-    for process in process_list:
-        process.join() # wait for process to complete execution
-
-    print("ALL PROCESSES COMPLETED!!")
