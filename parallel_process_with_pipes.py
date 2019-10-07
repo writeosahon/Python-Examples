@@ -5,6 +5,8 @@ import multiprocessing
 import time
 import os
 import platform
+import logging
+
 from myprocessespackage import process_using_pipes
 
 #==================================================================
@@ -13,6 +15,10 @@ from myprocessespackage import process_using_pipes
 # CHECK IF THE MODULE IS BEING EXECUTED AS THE MAIN SCRIPT BY THE INTERPRETER
 # THIS SECTION IS VERY IMPORTANT FOR MULTIPROCESSING CODE
 if __name__ == "__main__":
+
+    # SET THE LOGGING DETAILS FOR THE APP (WITHIN THIS PROCESS - BECAUSE THE APP IS MULTI-PROCESS)
+    logging.basicConfig(filename="LOGS.log", filemode="a", level=logging.INFO, \
+        format="%(levelname)s %(asctime)s || %(pathname)s >>> %(message)s")
 
     #variable holds all the pipe connections created
     pipes_dict = {} 
@@ -48,6 +54,7 @@ if __name__ == "__main__":
 
     # create the process pool
     multiprocess_pool = multiprocess.Pool(processes=os.cpu_count() * 2, maxtasksperchild=2)
+    logging.info("created process pool") # write a simple log message
     # use a for loop to creating the process objects. Number of processes == number of cpus
     for(i) in range(1, os.cpu_count() + 1):
         # create name for the connection
@@ -70,7 +77,9 @@ if __name__ == "__main__":
     # make sure that list is NOT NONE and that the list has items in it
     while parent_connections_list is not None and len(parent_connections_list) > 0:
         # if so wait for any of the items to response. wait for 5 secs max
-        parent_connections_list = multiprocessing.connection.wait(parent_connections_list)
+        parent_connections_list = multiprocessing.connection.wait(parent_connections_list, 5)
+
+        # check if there are any response from any of the parent_connections_list items
         if parent_connections_list is not None and len(parent_connections_list) > 0:
             for parent_conn in parent_connections_list:
                 print("Process {} says: {}". format(parent_conn.app_connection_name, \
