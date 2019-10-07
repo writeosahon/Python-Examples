@@ -50,9 +50,20 @@ if __name__ == "__main__":
     multiprocess_pool = multiprocess.Pool(processes=os.cpu_count() * 2, maxtasksperchild=2)
     # use a for loop to creating the process objects. Number of processes == number of cpus
     for(i) in range(1, os.cpu_count() + 1):
-        # create the process objects
+        # create the tasks for the process objects in the pool
         multiprocess_pool.apply_async(func=simpleprocess.run_method, args=(i,), \
             callback=lambda x: print(f"Result {x}"), error_callback=lambda x: print(f"Error {x}"))
+    
+    # create a collection of tasks (all at once) for the process objects in the pool
+    multiprocess_pool.map_async(func=simpleprocess.run_method, iterable=enumerate(range(1, 4)),\
+            callback=lambda x: print(f"Result {x}"), error_callback=lambda x: print(f"Error {x}"))    
+    
+    # create a collection of tasks (all at once using imap) for the process objects in the pool
+    imap_result = multiprocess_pool.imap(func=simpleprocess.run_method, \
+        iterable=enumerate(range(1, 4)), chunksize=3)    
+    
+    for answer in imap_result:
+        print("process imap result {}".format(answer))
 
     # close the multiprocessing pool    
     multiprocess_pool.close()
