@@ -41,14 +41,15 @@ async def main():
                         version.index(" ")])
     print(programHeading)
     print('=' * len(programHeading))
-    programHeading = "PYTHON MULTIPROCESSING POOL"
+    programHeading = "PYTHON ASYNC GENERATOR EVENT-DRIVEN PROGRAMMING"
     print(programHeading)
     print('=' * len(programHeading))
     # end of greetings
     
     # use an async for-loop to get the generated random int
     async for number in getrandom_number():
-        print(f"Random Number: {number}")
+        # print out the returned number
+        print("Random Number: {}".format(number))
 
 # end of main() function        
 
