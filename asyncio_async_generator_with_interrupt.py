@@ -88,5 +88,31 @@ if __name__ == "__main__":
     # submit the main function as a coroutine/task to the event loop
     event_loop.create_task(main())
 
-    #run the event loop forever
-    event_loop.run_forever()
+    try: # place this code in a try block to handle any exceptions
+
+        #run the event loop forever
+        event_loop.run_forever()
+    except KeyboardInterrupt as keyboard_interrupt:
+        print("Program Termination Requested")
+    
+    # CLEANUP PROCEDURES BEGIN BELOW
+    # check if the asyncio.all_tasks() method is supported. method present in Python 3.7+
+    if asyncio.all_tasks is not None: 
+        pending_tasks = asyncio.all_tasks(loop=event_loop) # get all pending tasks
+    else:
+        pending_tasks = asyncio.Task.all_tasks() # get all pending tasks
+    
+    # cancel all pending tasks
+    for task in pending_tasks:
+        task.cancel()
+    
+    # run all the pending tasks once more, so they can cancel
+    cleanup_task = asyncio.gather(*pending_tasks, return_exceptions=True)
+    # run and wait for the cleanup task to complete
+    event_loop.run_until_complete(cleanup_task)
+    # check if the event_loop is srill running
+    if event_loop.is_running():
+        event_loop.stop() # stop it
+    # close the run finally
+    event_loop.close()
+print("PROGRAM SUCESSFULLY TERMINATED\U0001F44D")
